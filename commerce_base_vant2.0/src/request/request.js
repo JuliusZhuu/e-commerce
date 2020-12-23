@@ -2,7 +2,7 @@ import axios from 'axios'
 import storageUtil from '../util/storageUtil'
 
 const instance = axios.create({
-    baseURL: 'http://kumanxuan1.f3322.net:8001',
+    baseURL: 'http://localhost:8089',
     timeout: 3000
 })
 //请求拦截
@@ -18,7 +18,7 @@ instance.interceptors.request.use(config => {
 
 //响应拦截
 instance.interceptors.response.use(response => {
-    return response;
+    return response.data;
 }, error => {
     return Promise.reject(error);
 })

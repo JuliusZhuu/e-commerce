@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 /dist
-commerce_base_vant2.0.iml
+
 
 # local env files
 .env.local

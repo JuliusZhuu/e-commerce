@@ -7,7 +7,7 @@
                         shape="round" background="#fff" @click="gotoPopup"/>
             <van-swipe autoplay="3000">
                 <van-swipe-item v-for="(image) in banner" :key="image.id">
-                    <img :src="image.image_url" width="100%"/>
+                    <img :src="image.imageUrl" width="100%"/>
                 </van-swipe-item>
             </van-swipe>
             <!--首页频道-->
@@ -49,7 +49,7 @@
         },
         created() {
             getHomeData().then(resp => {
-                const {banner, channel, brandList} = resp.data.data
+                const {banner, channel, brandList} = resp
                 this.banner = banner
                 this.channel = channel
                 this.brandList = brandList

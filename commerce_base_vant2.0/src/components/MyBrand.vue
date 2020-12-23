@@ -6,9 +6,9 @@
             <van-grid-item v-for="(item,index) in brandList" :key="index">
                 <template #default>
                     <div>
-                        <img :src="item.pic_url" style="width: 100%;height: 100%"/>
+                        <img :src="item.picUrl" style="width: 100%;height: 100%"/>
                         <span class="name">{{item.name}}</span>
-                        <span class="money">￥{{item.floor_price}}</span>
+                        <span class="money">￥{{item.floorPrice}}</span>
                     </div>
                 </template>
             </van-grid-item>
