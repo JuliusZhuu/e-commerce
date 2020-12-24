@@ -1,23 +1,30 @@
 package com.juliuszhu.ecommerce;
 
-import com.juliuszhu.ecommerce.domain.mapper.UserMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.juliuszhu.ecommerce.service.BannerService;
+import com.juliuszhu.ecommerce.service.BrandListService;
+import com.juliuszhu.ecommerce.service.ChannelService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
 
 @SpringBootTest
 class EcommerceWebApplicationTests {
+    @Autowired
+    private BannerService bannerService;
+    @Autowired
+    private ChannelService channelService;
 
     @Autowired
-    DataSource dataSource;
-    @Autowired
-    UserMapper userMapper;
+    private BrandListService brandListService;
+
+    EcommerceWebApplicationTests() {
+    }
 
     @Test
-    void contextLoads() throws SQLException {
+    void contextLoads()   {
+
 
     }
 

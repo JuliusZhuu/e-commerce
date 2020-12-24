@@ -17,7 +17,8 @@
         </van-row>
         <van-row gutter="10">
             <van-col v-for="(item,index) in hotKeywordList" :key="index">
-                <van-tag @click="hotKeywordTag" plain :type="item.is_hot===1?'danger':'default'">{{item.keyword}}
+                <van-tag @click="hotKeywordTag" plain :type="item.isHot===1?'danger':'default'">
+                    {{item.keyword}}
                 </van-tag>
             </van-col>
         </van-row>

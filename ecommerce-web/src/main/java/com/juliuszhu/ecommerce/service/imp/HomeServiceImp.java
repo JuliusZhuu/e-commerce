@@ -1,8 +1,6 @@
 package com.juliuszhu.ecommerce.service.imp;
 
-import com.juliuszhu.ecommerce.domain.entity.Banner;
-import com.juliuszhu.ecommerce.domain.entity.Brand;
-import com.juliuszhu.ecommerce.domain.entity.Channel;
+import com.juliuszhu.ecommerce.domain.entity.*;
 import com.juliuszhu.ecommerce.service.BannerService;
 import com.juliuszhu.ecommerce.service.BrandListService;
 import com.juliuszhu.ecommerce.service.ChannelService;
@@ -31,12 +29,20 @@ public class HomeServiceImp implements HomeService {
 
     @Autowired
     private BrandListService brandListService;
+
     @Override
-    public Map<String, Object> getHomeIndex() {
+    public Map<String, Object>  getHomeIndex() {
         List<Banner> homeSlideShow = bannerService.getHomeSlideShow();
         List<Channel> homeChannel = channelService.getHomeChannel();
         List<Brand> homeBrand = brandListService.getHomeBrand();
         Map<String, Object> map = new HashMap<>();
+        //分页数据
+        PageInfoEntity page = new PageInfoEntity();
+        page.setCount(100);
+        page.setCurrentPage(1);
+        page.setTotalPages(10);
+        page.setPageSize(10);
+        map.put("pageInfo", page);
         map.put("banner", homeSlideShow);
         map.put("channel", homeChannel);
         map.put("brandList", homeBrand);

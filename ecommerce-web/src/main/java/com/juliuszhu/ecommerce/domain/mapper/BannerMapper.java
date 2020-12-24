@@ -2,7 +2,7 @@ package com.juliuszhu.ecommerce.domain.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.juliuszhu.ecommerce.domain.entity.Banner;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -18,6 +18,7 @@ public interface BannerMapper extends BaseMapper<Banner> {
      * 获取所有首页轮播图信息
      * @return
      */
-    @Select("select  *  from banner ")
+
+    @Select("select  *  from  banner ")
     List<Banner> getHomeSlideShow();
 }

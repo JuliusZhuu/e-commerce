@@ -41,4 +41,16 @@ public class Banner extends BaseEntity {
      * 结束时间
      */
     private Date end_time;
+
+    @Override
+    public String toString() {
+        return "Banner{" +
+                "name='" + name + '\'' +
+                ", link='" + link + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", content='" + content + '\'' +
+                ", enabled=" + enabled +
+                ", end_time=" + end_time +
+                '}';
+    }
 }

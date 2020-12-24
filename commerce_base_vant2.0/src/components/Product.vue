@@ -6,9 +6,9 @@
                            @click="clickItem(item.id)">
                 <!--使用插槽自定义样式-->
                 <template #default>
-                    <img :src="item.list_pic_url" style="width: 100%;height: 100%"/>
+                    <img :src="item.listPicUrl" style="width: 100%;height: 100%"/>
                     <div>{{item.name}}</div>
-                    <div class="money">￥{{item.retail_price}}元</div>
+                    <div class="money">￥{{item.retailPrice}}元</div>
                 </template>
             </van-grid-item>
         </van-grid>
@@ -20,9 +20,6 @@
     export default {
         name: "Product",
         props: ['goodsList'],
-        data() {
-            return {}
-        },
         methods: {
             clickItem(goodId) {
                 //若已经是详情页则直接更新页面内容

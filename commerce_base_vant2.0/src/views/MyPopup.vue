@@ -1,16 +1,16 @@
 <template>
     <!--点击首页搜索弹出框-->
-        <div class="popup">
-            <van-search v-model="searcherValue" :placeholder="placeHolder" show-action
-                        @search="onSearch"
-                        @cancel="onCancel"
-                        @input="inputChange"
-                        shape="round" background="#fff"/>
-            <!--传递给子组件-->
-            <HistoryAndHot v-if="blockShow===1" :historyKeywordList="historyKeywordList"
-                           :hotKeywordList="hotKeywordList"/>
-            <MyList :searchList="searchList" v-else-if="blockShow===2"/>
-            <MyProduct :goodsList="goodsList" :filterCategory="filterCategory" v-else/>
+    <div class="popup">
+        <van-search v-model="searcherValue" :placeholder="placeHolder" show-action
+                    @search="onSearch"
+                    @cancel="onCancel"
+                    @input="inputChange"
+                    shape="round" background="#fff"/>
+        <!--传递给子组件-->
+        <HistoryAndHot v-if="blockShow===1" :historyKeywordList="historyKeywordList"
+                       :hotKeywordList="hotKeywordList"/>
+        <MyList :searchList="searchList" v-else-if="blockShow===2"/>
+        <MyProduct :goodsList="goodsList" :filterCategory="filterCategory" v-else/>
     </div>
 </template>
 
@@ -42,8 +42,8 @@
         },
         created() {
             getPopupData().then(res => {
-                const {defaultKeyword, historyKeywordList, hotKeywordList} = res.data.data
-                this.placeHolder = defaultKeyword.keyword
+                const {defaultKeyword, historyKeywordList, hotKeywordList} = res
+                this.placeHolder = defaultKeyword
                 //传递给子组件
                 this.historyKeywordList = historyKeywordList
                 this.hotKeywordList = hotKeywordList
@@ -91,7 +91,7 @@
                     //切换到产品区块
                     this.blockShow = 3;
                     //传递给子组件
-                    const {goodsList, filterCategory} = resp.data.data
+                    const {goodsList, filterCategory} = resp
                     this.goodsList = goodsList
                     //处理filterCategory设置为text和value
                     //首先将json对象转换成JSON字符串，然后进行替换操作,最后在解析成JSON对象
@@ -108,7 +108,7 @@
                 if (keyword.trim().length > 0) {
                     this.blockShow = 2
                     getTimeSearch({keyword}).then(resp => {
-                        this.searchList = resp.data.data;
+                        this.searchList = resp
                     })
                 } else {
                     //清空

@@ -14,5 +14,5 @@ public interface HomeService {
      * 返回首页数据,包括轮播图，频道等信息
      * @return
      */
-    Map<String, Object> getHomeIndex();
+    Map<String,Object> getHomeIndex();
 }

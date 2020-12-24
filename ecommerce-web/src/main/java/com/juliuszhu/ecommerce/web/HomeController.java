@@ -3,6 +3,7 @@ package com.juliuszhu.ecommerce.web;
 import com.juliuszhu.ecommerce.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -15,16 +16,17 @@ import java.util.Map;
  * @describe: 前端首页controller
  */
 @RestController
+@RequestMapping("index")
 public class HomeController {
     @Autowired
-    private HomeService  homeService;
+    private HomeService homeService;
 
     /**
-     * 获取首页信息,包括轮播图,频道，专题，推荐等
+     * 获取首页信息,包括轮播图,频道，专题
      *
      * @return 轮播图信息
      */
-    @GetMapping("/index/index")
+    @GetMapping("index")
     public Map<String, Object> getHomeIndex() {
         return homeService.getHomeIndex();
     }

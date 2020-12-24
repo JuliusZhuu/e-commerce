@@ -15,12 +15,7 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 public class Goods extends BaseEntity {
-//    {
-//        "id": 1023003,
-//            "name": "100年传世珐琅锅 全家系列",
-//            "list_pic_url": "http://yanxuan.nosdn.127.net/c39d54c06a71b4b61b6092a0d31f2335.png",
-//            "retail_price": 398
-//    },
+
     /**
      * 商品名称
      */

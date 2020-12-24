@@ -59,7 +59,7 @@
              * 分别用这些关键词搜索数据,然后添加到列表中显示
              */
             getSearch({keyword: '日式'}).then(resp => {
-                const {goodsList} = resp.data.data
+                const {goodsList} = resp
                 this.goodsList = goodsList
             })
         },
