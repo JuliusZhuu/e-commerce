@@ -1,5 +1,6 @@
 package com.juliuszhu.ecommerce.web;
 
+import com.juliuszhu.ecommerce.service.GoodsService;
 import com.juliuszhu.ecommerce.service.HistoryKeywordListService;
 import com.juliuszhu.ecommerce.service.MyPopupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class MyPopupController {
 
     @Autowired
     private MyPopupService myPopupService;
+    @Autowired
+    private GoodsService goodsService;
 
     /**
      * 获取用户的搜索记录
@@ -34,5 +37,16 @@ public class MyPopupController {
     @GetMapping("index")
     public Map<String, Object> getIndex(@RequestParam(value = "username", required = false) String username) {
         return myPopupService.getIndex(username);
+    }
+
+    /**
+     * 输入框实时搜索数据
+     *
+     * @param keyword 用户输入的关键词
+     * @return 符合条件的搜索记录
+     */
+    @GetMapping("helper")
+    public List<String> getHelper(@RequestParam("keyword") String keyword) {
+        return goodsService.getGoodsNames(keyword);
     }
 }

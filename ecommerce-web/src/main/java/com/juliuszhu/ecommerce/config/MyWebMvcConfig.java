@@ -17,7 +17,8 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         //对哪种格式的请求进行跨域处理,/**表示所有
         registry.addMapping("/**")
-                .allowedOrigins("*");//表示支持任意请求的域
+                .allowedOrigins("*")//表示支持任意请求的域
+                .allowedMethods("*");//支持的请求方式
         //       .allowedOrigins("http://localhost:63342");//表示支持来自的域
 
     }

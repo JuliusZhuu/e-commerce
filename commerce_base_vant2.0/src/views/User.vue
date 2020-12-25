@@ -74,7 +74,7 @@
             submit() {
                 const {username, password} = this
                 goLogin({username, pwd: password}).then(resp => {
-                    const {token, userInfo} = resp.data.data
+                    const {token, userInfo} = resp
                     //本地化存储数据
                     storageUtil.saveToken(token)
                     storageUtil.saveUser(userInfo)

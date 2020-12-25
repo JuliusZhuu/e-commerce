@@ -43,7 +43,7 @@
             //初始化购物车数量
             initData() {
                 getCartCount().then(resp => {
-                    this.badge = resp.data.data.cartTotal.goodsCount;
+                    this.badge = resp.goodsCount;
                 })
             },
             //收藏

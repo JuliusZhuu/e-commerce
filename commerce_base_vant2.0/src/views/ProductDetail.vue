@@ -21,15 +21,15 @@
         <!--轮播图-->
         <van-swipe autoplay="3000">
             <van-swipe-item v-for="(image) in gallery" :key="image.id">
-                <van-image width="100%" height="3rem" :src="image.img_url"/>
+                <van-image width="100%" height="3rem" :src="image.imgUrl"/>
             </van-swipe-item>
         </van-swipe>
         <Tips/>
         <!--简单描述信息-->
         <div class="info">
             <h4>{{info.name}}</h4>
-            <p>{{info.goods_brief}}</p>
-            <p class="price">￥{{info.retail_price}}元</p>
+            <p>{{info.goodsBrief}}</p>
+            <p class="price">￥{{info.retailPrice}}元</p>
         </div>
         <!--商品参数-->
         <ul class="attribute">
@@ -143,7 +143,6 @@
                 attribute: [],
                 //常见问题
                 issue: [],
-                productList: [],
                 //相关产品
                 goodsList: []
             }
@@ -162,10 +161,10 @@
                     }, 1000)
                     return
                 }
-                let number = skuData.selectedNum
-                let goodsId = this.productList[0].goods_id;
-                let productId = this.productList[0].id;
-                addProductToCart({goodsId, productId, number}).then(() => {
+
+                let goodsNumber = skuData.selectedNum
+                let goodsId = this.info.goodsId;
+                addProductToCart({goodsId, goodsNumber}).then(() => {
                     this.$toast.success('添加成功')
                     //通知子组件更新购物车数量
                     this.$PubSub.publish('updateCartCount')
@@ -181,22 +180,22 @@
             initData(id) {
                 getProductDetail({id}).then(resp => {
                     //分别是轮播图，产品信息，产品参数，常见问题
-                    const {gallery, info, attribute, issue, productList} = resp.data.data
+                    const {gallery, info, attribute, issue} = resp
                     this.gallery = gallery;
                     this.info = info
                     this.attribute = attribute
                     this.issue = issue
-                    this.productList = productList
                     //渲染sku
-                    this.goods.picture = info.list_pic_url
-                    this.sku.price = info.retail_price.toFixed(2)
-                    this.sku.stock_num = info.goods_number
+                    this.goods.picture = info.listPicUrl
+                    this.sku.price = info.retailPrice.toFixed(2)
+                    this.sku.stock_num = info.goodsNumber
                     //回到顶部
                     window.scrollTo(0, 0);
-                })
-                //获取相关产品
-                getAbout({id}).then(resp => {
-                    this.goodsList = resp.data.data.goodsList
+                    //获取相关产品
+                    const name = this.info.name
+                    getAbout({name}).then(resp => {
+                        this.goodsList = resp.goodsList
+                    })
                 })
             }
         },

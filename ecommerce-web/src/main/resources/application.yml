@@ -6,6 +6,10 @@ spring:
     url: jdbc:mysql://192.168.1.105:3306/ecommerce
     username: root
     password: 123456
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true #开启支持隐藏的请求方法,例如put delete请求
 logging:
   level: {com.juliuszhu.ecommerce: debug}
 mybatis-plus:

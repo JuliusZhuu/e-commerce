@@ -14,7 +14,7 @@ import java.util.List;
  * @describe:
  */
 public interface HistoryKeywordListMapper {
-    @Select("select name  from history_keyword_list ")
+    @Select("select name  from history_keyword_list limit 10 ")
     List<String> getHistoryKeyWord(String username);
 
 }

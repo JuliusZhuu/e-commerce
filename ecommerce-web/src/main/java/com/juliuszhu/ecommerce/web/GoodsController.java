@@ -1,13 +1,10 @@
 package com.juliuszhu.ecommerce.web;
 
-import com.juliuszhu.ecommerce.domain.entity.Goods;
-
 import com.juliuszhu.ecommerce.domain.entity.GoodsSelectCondition;
 import com.juliuszhu.ecommerce.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,5 +51,28 @@ public class GoodsController {
         }
         condition.setKeyword(keyword);
         return goodsService.listGoods(condition);
+    }
+
+    /**
+     * 查询单个商品详细信息
+     *
+     * @param id 商品id
+     * @return 商品信息对象
+     */
+    @GetMapping("detail")
+    public Map<String, Object> getGoodsDetail(@RequestParam("id") Integer id) {
+        return goodsService.getGoodsDetail(id);
+    }
+
+
+    /**
+     * 获取相关商品信息
+     *
+     * @param name 商品名称
+     * @return 相关商品信息
+     */
+    @GetMapping("related")
+    public Map<String, Object> getAboutGoods(@RequestParam("name") String name) {
+        return goodsService.getAboutGoods(name);
     }
 }

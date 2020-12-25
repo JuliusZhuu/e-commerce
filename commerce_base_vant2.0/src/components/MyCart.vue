@@ -3,15 +3,16 @@
     <div style="width: 100%">
         <Tips/>
         <van-checkbox-group :disabled="isShowStepper" v-model="result" ref="checkboxGroup">
-            <van-checkbox v-for="item in cartList" :key="item.id" :name="item.product_id"
+            <van-checkbox v-for="item in cartList" :key="item.id" :name="item.goodsId"
                           @click="clickItem(item)">
                 <van-swipe-cell>
-                    <van-card :num="item.number"
-                              :price="item.retail_price.toFixed(2)"
-                              :title="item.goods_name"
-                              :thumb="item.list_pic_url">
+                    <van-card :num="item.goodsNumber"
+                              :price="item.retailPrice"
+                              :title="item.goodsName"
+                              :thumb="item.listPicUrl">
                         <template #footer v-if="isShowStepper">
-                            <van-stepper @change="stepperChange(item)" v-model="item.number" integer/>
+                            <van-stepper @change="stepperChange(item)" v-model="item.goodsNumber"
+                                         integer/>
                         </template>
                     </van-card>
                     <template #right>
@@ -72,8 +73,8 @@
                     let totalPrice = 0;
                     //获取购物车中所有的商品信息,根据选中状态进行商品总价计算
                     this.cartList.forEach(item => {
-                        if (item.checked === 1) {
-                            totalPrice += item.retail_price * item.number;
+                        if (item.isChecked === '1') {
+                            totalPrice += item.retailPrice * item.goodsNumber;
                         }
                     })
                     return totalPrice * 100;
@@ -89,11 +90,10 @@
                     return
                 }
                 goodsStatusChange({
-                    //取反 不能使用!item.checked 返回boolean,后台要求是数字
-                    isChecked: item.checked === 1 ? 0 : 1,
-                    productIds: item.product_id.toString()
+                    isChecked: item.isChecked === '1' ? '0' : '1',
+                    goodsId: item.goodsId
                 }).then(resp => {
-                    this.renderData(resp.data.data);
+                    this.renderData(resp);
                 })
             },
             //全选按钮
@@ -105,33 +105,28 @@
                 // 已经被全部选中则更新为全部未选中
                 if (status) {
                     goodsStatusChange({
-                        isChecked: 0,
-                        productIds: this.result.join(','),
+                        isChecked: '0',
+                        goodsIds: this.result,
                     }).then(resp => {
-                        this.renderData(resp.data.data);
+                        this.renderData(resp);
                     })
                 } else {
                     //未被全部选中则更新为全部选中,需要设置下全选,否则result没有值
                     this.$refs.checkboxGroup.toggleAll(true);
                     goodsStatusChange({
-                        isChecked: 1,
-                        productIds: this.result.join(','),
+                        isChecked: '1',
+                        goodsIds: this.result,
                     }).then(resp => {
-                        this.renderData(resp.data.data);
+                        this.renderData(resp);
                     })
                 }
             },
             //步进器值发生改变
             stepperChange(item) {
-                const {goods_id, id, number, product_id} = item
+                const {goodsId, goodsNumber} = item
                 goodsNumberChange(
-                    {
-                        goodsId: goods_id,
-                        id,
-                        number,
-                        productId: product_id
-                    }).then(resp => {
-                    this.renderData(resp.data.data)
+                    {goodsId, goodsNumber}).then(resp => {
+                    this.renderData(resp)
                 })
             },
             onSubmit() {
@@ -139,9 +134,9 @@
             },
             //左滑删除商品
             deleteButton(item) {
-                const {product_id} = item
-                deleteGoods({productIds: product_id.toString()}).then(resp => {
-                    this.renderData(resp.data.data)
+                const {goodsId} = item
+                deleteGoods({goodsId: goodsId}).then(resp => {
+                    this.renderData(resp)
                 })
             },
             //渲染数据
@@ -149,20 +144,20 @@
                 const {cartList, cartTotal} = data
                 this.cartList = cartList
                 this.cartTotal = cartTotal
-                //判断每个商品是否被选中,checked===1为选中,
+                //判断每个商品是否被选中,isChecked===1为选中,
                 //添加到按钮组中进行渲染
                 //每次添加之前清空下数组中数据
                 this.result = []
                 this.cartList.map(val => {
-                    if (val.checked === 1) {
-                        this.result.push(val.product_id)
+                    if (val.isChecked === '1') {
+                        this.result.push(val.goodsId)
                     }
                 })
             }
         },
         created() {
             getCardData().then(resp => {
-                this.renderData(resp.data.data)
+                this.renderData(resp)
             })
         },
         components: {Tips}
