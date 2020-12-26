@@ -73,18 +73,22 @@
             //登录
             submit() {
                 const {username, password} = this
-                goLogin({username, pwd: password}).then(resp => {
-                    const {token, userInfo} = resp
-                    //本地化存储数据
-                    storageUtil.saveToken(token)
-                    storageUtil.saveUser(userInfo)
-                    this.$toast.success('登录成功!')
-                    //更新头像与关闭窗口
-                    this.avatar = userInfo.avatar
-                    this.nickName = userInfo.nickname
-                    setTimeout(() => {
-                        this.showForm = false
-                    }, 1000)
+                goLogin({username, password}).then(resp => {
+                    const {loginResult, user} = resp
+                    if (loginResult === '登录成功') {
+                        //本地化存储数据
+                        storageUtil.saveToken(user.token)
+                        storageUtil.saveUser(user)
+                        this.$toast.success('登录成功!')
+                        //更新头像与关闭窗口
+                        this.avatar = user.avatar
+                        this.nickName = user.nickName
+                        setTimeout(() => {
+                            this.showForm = false
+                        }, 1000)
+                    } else {
+                        this.$toast.fail('登录失败!')
+                    }
                 }).catch(() => {
                     this.$toast.fail('登录失败!')
                 })
