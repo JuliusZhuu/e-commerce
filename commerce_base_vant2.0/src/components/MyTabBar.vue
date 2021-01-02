@@ -10,6 +10,8 @@
 </template>
 
 <script>
+    import storageUtil from "../util/storageUtil";
+
     export default {
         name: "MyTabBar",
         computed: {
@@ -49,7 +51,12 @@
                         this.$router.replace('/category')
                         break;
                     case 3:
-                        this.$router.replace('/cart')
+                        let token = storageUtil.getToken();
+                        if (token.length > 0) {
+                            this.$router.replace('/cart')
+                        } else {
+                            this.$toast.fail('请先登录!')
+                        }
                         break;
                     case 4:
                         this.$router.replace('/user')

@@ -64,7 +64,7 @@
             if (storageUtil.getToken().length > 0) {
                 const userInfo = storageUtil.getUser();
                 this.avatar = userInfo.avatar
-                this.nickName = userInfo.nickname
+                this.nickName = userInfo.nickName
             } else {
                 this.showForm = true
             }

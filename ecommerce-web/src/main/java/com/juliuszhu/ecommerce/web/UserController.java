@@ -1,6 +1,7 @@
 package com.juliuszhu.ecommerce.web;
 
-import com.juliuszhu.ecommerce.domain.entity.User;
+import com.juliuszhu.ecommerce.domain.entity.MyUser;
+import com.juliuszhu.ecommerce.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("auth")
 public class UserController {
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * 用户登录
@@ -28,20 +34,7 @@ public class UserController {
      * @return
      */
     @PostMapping("loginByWeb")
-    public Map<String, Object> loginByWeb(@RequestBody User user) {
-        Map<String, Object> result = new HashMap<>();
-        if ("julius".equals(user.getUsername()) && "123".equals(user.getPassword())) {
-            //随机生成口令
-            String token = UUID.randomUUID().toString();
-            //随机昵称
-            String nickName = "用户" + UUID.randomUUID().toString().substring(0, 8);
-            user.setToken(token);
-            user.setNickName(nickName);
-            result.put("loginResult", "登录成功");
-            result.put("user", user);
-        } else {
-            result.put("loginResult", "登录失败");
-        }
-        return result;
+    public Map<String, Object> loginByWeb(@RequestBody MyUser user) {
+        return  userService.loginByWeb(user);
     }
 }
