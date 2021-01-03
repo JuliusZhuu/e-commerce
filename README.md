@@ -32,4 +32,4 @@
 
 
 ### Customize configuration
-* 增加项目效果展示图面,默认在commerce_base_vant2.0/public/images/目录下
+* 增加项目效果展示图片,默认在commerce_base_vant2.0/public/images/目录下
