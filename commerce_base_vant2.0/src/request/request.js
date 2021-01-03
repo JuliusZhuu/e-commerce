@@ -9,7 +9,7 @@ const instance = axios.create({
 instance.interceptors.request.use(config => {
     let token = storageUtil.getToken();
     if (token.length > 0) {
-        config.headers['x-header-token'] = token
+        config.headers['e-commerce-Authorization'] = token
     }
     return config;
 }, error => {

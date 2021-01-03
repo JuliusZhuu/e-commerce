@@ -2,9 +2,9 @@ package com.juliuszhu.ecommerce.web;
 
 import com.juliuszhu.ecommerce.domain.entity.CartList;
 import com.juliuszhu.ecommerce.service.CartService;
+import com.juliuszhu.ecommerce.util.GetCurrentUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -19,10 +19,8 @@ import java.util.Map;
 public class CartListController {
     private final CartService cartService;
 
-
-
     @Autowired
-    public CartListController(CartService cartService  ) {
+    public CartListController(CartService cartService) {
         this.cartService = cartService;
 
     }
@@ -32,20 +30,18 @@ public class CartListController {
      *
      * @return 购物车商品数量
      */
-    @PutMapping("goodsCount")
-    public Map<String, Integer> getCartGoodsCount(HttpServletRequest request) {
-
-        return cartService.getCartGoodsCount(null);
+    @GetMapping("goodsCount")
+    public Map<String, Integer> getCartGoodsCount() {
+        System.out.println("aaa");
+        return cartService.getCartGoodsCount(GetCurrentUserInfo.getCurrentUsername());
     }
 
     /**
      * 获取购物车数据
-     *
-     * @return
      */
     @GetMapping("index")
-    public Map<String, Object> getCartList(HttpServletRequest request) {
-        return cartService.getCartList(null);
+    public Map<String, Object> getCartList() {
+        return cartService.getCartList(GetCurrentUserInfo.getCurrentUsername());
     }
 
     /**
@@ -55,10 +51,11 @@ public class CartListController {
      * @return
      */
     @PostMapping("add")
-    public Map<String, Object> addCart(@RequestBody CartList cartList, HttpServletRequest request) {
-//        cartList.setUsername(username);
+    public Map<String, Object> addCart(@RequestBody CartList cartList) {
+        String currentUsername = GetCurrentUserInfo.getCurrentUsername();
+        cartList.setUsername(currentUsername);
         cartService.addCart(cartList);
-        return cartService.getCartList(cartList.getUsername());
+        return cartService.getCartList(currentUsername);
     }
 
     /**
@@ -68,10 +65,11 @@ public class CartListController {
      * @return
      */
     @PutMapping("update")
-    public Map<String, Object> cartUpdate(@RequestBody CartList cartList,HttpServletRequest request) {
-//        cartList.setUsername(username);
+    public Map<String, Object> cartUpdate(@RequestBody CartList cartList) {
+        String currentUsername = GetCurrentUserInfo.getCurrentUsername();
+        cartList.setUsername(currentUsername);
         cartService.addCart(cartList);
-        return cartService.getCartList(cartList.getUsername());
+        return cartService.getCartList(currentUsername);
     }
 
     /**
@@ -81,9 +79,10 @@ public class CartListController {
      * @return
      */
     @PutMapping("checked")
-    public Map<String, Object> cartCheckedChange(@RequestBody CartList cartList,HttpServletRequest request) {
-//        cartList.setUsername(username);
-        cartService.addCart(cartList);
-        return cartService.getCartList(cartList.getUsername());
+    public Map<String, Object> cartCheckedChange(@RequestBody CartList cartList) {
+        String currentUsername = GetCurrentUserInfo.getCurrentUsername();
+        cartList.setUsername(currentUsername);
+        cartService.cartUpdate(cartList);
+        return cartService.getCartList(currentUsername);
     }
 }

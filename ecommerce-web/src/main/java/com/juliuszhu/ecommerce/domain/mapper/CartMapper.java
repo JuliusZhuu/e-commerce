@@ -59,7 +59,7 @@ public interface CartMapper {
      * @param cartList
      * @return
      */
-    @Select("select  count(*)  from  cart_list  where username=#{username} and goodsId=#{goodsId}")
+    @Select("select  count(*)  from  cart_list  where username=#{username} and goodsId=#{goodsId} and  isDelete=0")
     Integer isExistsCartGoods(CartList cartList);
 
     /**
@@ -83,7 +83,8 @@ public interface CartMapper {
      * @param cartList 购物车商品信息
      * @return
      */
-    @Select("select *  from cart_list  where  username=#{username} and  goodsId=#{goodsId}")
+    @Select("select *  from cart_list  where  username=#{username} and  goodsId=#{goodsId} " +
+            "and isDelete=0")
     CartList getCartListByGoodsId(CartList cartList);
 
     @Update("update cart_list set isChecked=#{isChecked} where" +

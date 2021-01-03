@@ -74,15 +74,15 @@
             submit() {
                 const {username, password} = this
                 goLogin({username, password}).then(resp => {
-                    const {loginResult, user} = resp
-                    if (loginResult === '登录成功') {
+                    const {msg, status, data} = resp
+                    if (msg === '登入成功' && status === 200) {
                         //本地化存储数据
-                        storageUtil.saveToken(user.token)
-                        storageUtil.saveUser(user)
+                        storageUtil.saveToken(data.token)
+                        storageUtil.saveUser(data)
                         this.$toast.success('登录成功!')
                         //更新头像与关闭窗口
-                        this.avatar = user.avatar
-                        this.nickName = user.nickName
+                        this.avatar = data.avatar
+                        this.nickName = data.nickName
                         setTimeout(() => {
                             this.showForm = false
                         }, 1000)

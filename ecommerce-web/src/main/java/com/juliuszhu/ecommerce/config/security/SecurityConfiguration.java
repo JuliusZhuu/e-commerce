@@ -1,9 +1,11 @@
 package com.juliuszhu.ecommerce.config.security;
 
+import com.juliuszhu.ecommerce.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,6 +19,9 @@ import org.springframework.security.core.userdetails.cache.SpringCacheBasedUserC
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.lang.reflect.Constructor;
 
@@ -28,9 +33,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     // Spring Boot 的 CacheManager，这里我们使用 JCache
     private final CacheManager cacheManager;
-    public SecurityConfiguration(UserDetailsServiceImpl userDetailsServiceImpl, CacheManager cacheManager) {
+    private final UserService userService;
+
+    public SecurityConfiguration(UserDetailsServiceImpl userDetailsServiceImpl,
+                                 CacheManager cacheManager, UserService userService) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.cacheManager = cacheManager;
+        this.userService = userService;
     }
 
     @Override
@@ -39,7 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors()
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/auth/loginByWeb")
+                .loginProcessingUrl("login")
                 .and()
                 // security 默认 csrf 是开启的,我们使用了token,这个也没有什么必要了
                 .csrf().disable()
@@ -48,10 +57,37 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
                 .and()
                 // 添加自己编写的两个过滤器
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(),userService))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), cachingUserDetailsService(userDetailsServiceImpl)))
                 // 前后端分离是 STATELESS，故 session 使用该策略
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    /**
+     * 处理跨域问题
+     *
+     * @return
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        //  你需要跨域的地址  注意这里的 127.0.0.1 != localhost
+
+        // * 表示对所有的地址都可以访问
+        corsConfiguration.addAllowedOrigin("*");
+        //表示只允许http://localhost:8080地址的访问（重点哦）
+        //corsConfiguration.addAllowedOrigin("http://localhost:8080");
+        //跨域的请求头
+        corsConfiguration.addAllowedHeader("*");
+        // 跨域的请求方法
+        corsConfiguration.addAllowedMethod("*");
+        //加上了这一句，大致意思是可以携带 cookie
+        //最终的结果是可以 在跨域请求的时候获取同一个 session
+        //corsConfiguration.setAllowCredentials(true);
+        //配置可以访问的地址
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return new CorsFilter(source);
     }
 
     // 此处配置 AuthenticationManager，并且实现缓存
@@ -67,7 +103,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         如果被抹除了，在对 JWT 进行签名的时候就拿不到用户密码了，故此处关闭了自动抹除密码。
          */
         auth.eraseCredentials(false);
-        auth.userDetailsService(cachingUserDetailsService);
+        auth.userDetailsService(cachingUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Bean

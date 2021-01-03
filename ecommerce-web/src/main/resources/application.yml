@@ -6,13 +6,6 @@ spring:
     url: jdbc:mysql://192.168.1.105:3306/ecommerce
     username: root
     password: 123456
-  redis:
-    host: 192.168.1.105  #有账号和密码请在下面单独配置
-    port: 6379
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true #开启支持隐藏的请求方法,例如put delete请求
   cache:
     type: jcache
     jcache:
@@ -20,5 +13,5 @@ spring:
 logging:
   level: {com.juliuszhu.ecommerce: debug}
 mybatis-plus:
-  mapper-locations: mapper/*.xml    #扫描xml文件位置
+  mapper-locations: classpath:mapper/*.xml    #扫描xml文件位置
   type-aliases-package: com.juliuszhu.ecommerce.domain.entity #别名处理

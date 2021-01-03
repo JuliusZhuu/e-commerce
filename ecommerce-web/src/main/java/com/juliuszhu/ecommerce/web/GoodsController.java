@@ -17,8 +17,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("goods")
 public class GoodsController {
-    @Autowired
-    private GoodsService goodsService;
+    private final GoodsService goodsService;
+
+    public GoodsController(GoodsService goodsService) {
+        this.goodsService = goodsService;
+    }
 
     /**
      * 查询商品信息

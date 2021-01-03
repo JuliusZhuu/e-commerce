@@ -18,8 +18,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("index")
 public class HomeController {
-    @Autowired
-    private HomeService homeService;
+    private final HomeService homeService;
+
+    public HomeController(HomeService homeService) {
+        this.homeService = homeService;
+    }
 
     /**
      * 获取首页信息,包括轮播图,频道，专题
@@ -27,8 +30,6 @@ public class HomeController {
      * @return 轮播图信息
      */
     @GetMapping("index")
-    public Map<String, Object> getHomeIndex() {
-        return homeService.getHomeIndex();
-    }
+    public Map<String, Object> getHomeIndex() { return homeService.getHomeIndex(); }
 
 }

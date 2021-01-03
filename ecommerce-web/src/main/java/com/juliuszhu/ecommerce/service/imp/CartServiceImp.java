@@ -56,12 +56,11 @@ public class CartServiceImp implements CartService {
         if (count > 0) {
             CartList cartGoods = cartMapper.getCartListByGoodsId(cartList);
             //更新下数量信息
-            cartList.setGoodsNumber(cartList.getGoodsNumber() + cartGoods.getGoodsNumber());
+            cartList.setGoodsNumber(cartList.getGoodsNumber());
             cartMapper.updateCartGoods(cartList);
         } else {
             //查询商品信息
             Goods goods = goodsService.getGoodsDetailByGoodsId(cartList.getGoodsId());
-            //若是存在则直接更新
             cartList.setGoodsName(goods.getName());
             cartList.setRetailPrice(goods.getRetailPrice());
             cartList.setListPicUrl(goods.getListPicUrl());

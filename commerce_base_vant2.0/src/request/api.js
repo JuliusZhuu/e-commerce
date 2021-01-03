@@ -9,7 +9,7 @@ export const getSearch = params => request.get('/goods/list', {params})
 /*实时搜索功能*/
 export const getTimeSearch = params => request.get('/search/helper', {params})
 /*登录请求*/
-export const goLogin = params => request.post('/auth/loginByWeb', params)
+export const goLogin = params => request.post('/login', params)
 /*查看商品的详细信息*/
 export const getProductDetail = params => request.get('/goods/detail', {params})
 /*相关产品*/
