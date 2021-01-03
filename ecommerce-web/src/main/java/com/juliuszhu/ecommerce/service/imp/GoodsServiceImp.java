@@ -35,7 +35,11 @@ public class GoodsServiceImp implements GoodsService {
     public Map<String, Object> listGoods(GoodsSelectCondition condition) {
         List<Goods> goods = goodsMapper.listGoods(condition);
         Map<String, Object> goodsList = new HashMap<>();
+        //查询到商品信息
         goodsList.put("goodsList", goods);
+        //分类信息,后续从数据库中查询
+        Map<String, Integer> filterCategory = new HashMap<>();
+        goodsList.put("filterCategory", filterCategory);
         return goodsList;
     }
 

@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <router-view/>
-        <MyTabBar v-if="!($route.path==='/productDetail')"/>
+        <MyTabBar v-if="!($route.path==='/productDetail'||$route.path==='/home/popup')"/>
     </div>
 </template>
 <script>

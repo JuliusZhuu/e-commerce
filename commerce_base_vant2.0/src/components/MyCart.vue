@@ -1,6 +1,6 @@
 <template>
     <!--购物车组件-->
-    <div style="width: 100%">
+    <div class="cardStyle">
         <Tips/>
         <van-checkbox-group :disabled="isShowStepper" v-model="result" ref="checkboxGroup">
             <van-checkbox v-for="item in cartList" :key="item.id" :name="item.goodsId"
@@ -165,6 +165,11 @@
 </script>
 
 <style scoped>
+    .cardStyle {
+        width: 100%;
+        padding: 0.1rem 0.05rem;
+    }
+
     .van-submit-bar {
         margin-bottom: .5rem;
         text-align: center;

@@ -36,7 +36,11 @@
                 //搜索符合条件的商品信息
                 goodsList: [],
                 //分类信息
-                filterCategory: [],
+                filterCategory: [
+                    { text: '全部商品', value: 0 },
+                    { text: '新款商品', value: 1 },
+                    { text: '活动商品', value: 2 },
+                ],
                 searchList: []
             }
         },
@@ -94,10 +98,7 @@
                     const {goodsList, filterCategory} = resp
                     this.goodsList = goodsList
                     //处理filterCategory设置为text和value
-                    //首先将json对象转换成JSON字符串，然后进行替换操作,最后在解析成JSON对象
-                    this.filterCategory = JSON.parse(JSON.stringify(filterCategory)
-                        .replace(/name/g, 'text')
-                        .replace(/id/g, 'value'))
+                    // this.filterCategory = filterCategory
                 })
             },
             /**
