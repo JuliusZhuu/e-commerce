@@ -31,8 +31,8 @@
                 //2代表列表区块
                 //3代表产品区块
                 blockShow: 1,
-                historyKeywordList: [],
                 hotKeywordList: [],
+                historyKeywordList: [],
                 //搜索符合条件的商品信息
                 goodsList: [],
                 //分类信息
