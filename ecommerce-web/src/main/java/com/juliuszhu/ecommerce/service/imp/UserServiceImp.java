@@ -3,7 +3,6 @@ package com.juliuszhu.ecommerce.service.imp;
 import com.juliuszhu.ecommerce.domain.entity.MyUser;
 import com.juliuszhu.ecommerce.domain.mapper.UserMapper;
 import com.juliuszhu.ecommerce.service.UserService;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -25,6 +24,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public Map<String, Object> loginByWeb(MyUser user) {
+
         return null;
     }
 
