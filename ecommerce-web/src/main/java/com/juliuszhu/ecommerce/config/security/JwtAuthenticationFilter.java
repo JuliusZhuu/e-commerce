@@ -26,6 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * 认证过滤器
+ */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final UserService userService;
@@ -54,7 +57,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String password = null;
         //判断请求类型,发送的是json数据
         Map<String, String> stringStringMap;
-        String substring = header.substring(0, header.indexOf(";"));
+        String substring = null;
+        if (header.contains(";")) {
+            substring = header.substring(0, header.indexOf(";"));
+        } else if (header.contains("/")) {
+            substring = header.substring(0, header.indexOf("/"));
+        }
         if (MediaType.APPLICATION_JSON_VALUE.equals(substring)) {
             stringStringMap = parseJsonRequest(request);
         } else {
@@ -118,7 +126,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) throws IOException, ServletException {
+                                            Authentication authResult) throws IOException {
         handleResponse(request, response, authResult, null);
     }
 

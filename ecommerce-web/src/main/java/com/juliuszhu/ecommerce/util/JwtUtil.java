@@ -50,10 +50,10 @@ public class JwtUtil {
     public static boolean verify(String token, String username, String secret) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm)
+            JWT.require(algorithm)
                     .withClaim("username", username)
-                    .build();
-            DecodedJWT jwt = verifier.verify(token);
+                    .build()
+                    .verify(token);
             return true;
         } catch (Exception e) {
             return false;

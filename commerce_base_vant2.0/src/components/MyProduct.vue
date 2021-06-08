@@ -1,7 +1,7 @@
 <template>
     <!--搜索下拉向下弹出的菜单列表,以及商品简略信息-->
     <div>
-        <van-dropdown-menu>
+        <van-dropdown-menu >
             <van-dropdown-item title="综合" v-model="value1" disabled/>
             <van-dropdown-item title="价格" v-model="value2" :options="option2" @change="priceChange"/>
             <van-dropdown-item title="分类" v-model="value3" :options="filterCategory" @change="catalogChange"/>
@@ -52,5 +52,8 @@
 </script>
 
 <style scoped>
+
+
+
 
 </style>

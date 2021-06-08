@@ -2,6 +2,7 @@ package com.juliuszhu.ecommerce.web;
 
 import com.juliuszhu.ecommerce.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +31,7 @@ public class HomeController {
      * @return 轮播图信息
      */
     @GetMapping("index")
+    @Secured({ "ROLE_user"})
     public Map<String, Object> getHomeIndex() { return homeService.getHomeIndex(); }
 
 }

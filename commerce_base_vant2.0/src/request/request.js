@@ -3,6 +3,7 @@ import storageUtil from '../util/storageUtil'
 
 const instance = axios.create({
     baseURL: 'http://localhost:8089',
+    // baseURL: 'http://192.168.0.100:8089',
     timeout: 3000
 })
 //请求拦截

@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 授权过滤器
+ */
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final UserDetailsService userDetailsService;
@@ -28,7 +31,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain chain) throws IOException, ServletException {
         // 判断是否有 token，并且进行认证
         Authentication token = getAuthentication(request);
         if (token == null) {
@@ -48,13 +53,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         String token = header.split(" ")[1];
         String username = JwtUtil.getUsername(token);
-        UserDetails userDetails = null;
+        UserDetails userDetails;
         try {
             userDetails = userDetailsService.loadUserByUsername(username);
         } catch (UsernameNotFoundException e) {
             return null;
         }
-        if (! JwtUtil.verify(token, username, userDetails.getPassword())) {
+        if (!JwtUtil.verify(token, username, userDetails.getPassword())) {
             return null;
         }
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
